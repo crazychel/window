@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
         popupCall.style.display = 'block';
         document.body.style.overflow = 'hidden';
-    }, 1000);
+    }, 60000);
 
     let callBtn = document.querySelectorAll('.phone_link'),
         popupCall = document.querySelector('.popup');
