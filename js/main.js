@@ -51,12 +51,11 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     setClock('.timer', deadline);
 
-    // Modal
-    setTimeout(formEng, 60000);
+    // Modal Engineer
 
     let engineer = document.querySelector('.header_btn'),
         popupEngineer = document.querySelector('.popup_engineer'),
-        close = document.querySelectorAll('.popup_close')[1];
+        close = document.querySelectorAll('.popup_close');
 
     function formEng() {
         popupEngineer.style.display = 'block';
@@ -65,17 +64,44 @@ window.addEventListener('DOMContentLoaded', function () {
 
     engineer.addEventListener('click', formEng);
 
-    close.addEventListener('click', () => {
+    close[1].addEventListener('click', () => {
         popupEngineer.style.display = 'none';
         document.body.style.overflow = '';
     });
 
-    popupEngineer.addEventListener('click', function (event) {
-        if (event.target == popupEngineer) {
-            popupEngineer.style.display = 'none';
-            document.body.style.overflow = '';
+    function back(elem) {
+        elem.addEventListener('click', function (event) {
+            if (event.target == elem) {
+                elem.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    back(popupEngineer);
 
-        }
+
+    // Modal callback
+    setTimeout(formCall, 60000);
+
+    let callBtn = document.querySelectorAll('.phone_link'),
+        popupCall = document.querySelector('.popup');
+
+    function formCall() {
+        event.preventDefault()
+        popupCall.style.display = 'block';
+        document.body.style.overflow = 'hidden'
+    }
+
+    for (let i = 0; i < 2; i++) {
+        callBtn[i].addEventListener('click', formCall);
+    }
+
+    close[0].addEventListener('click', () => {
+        popupCall.style.display = 'none';
+        document.body.style.overflow = '';
     });
+
+    back(popupCall);
+
 
 });
