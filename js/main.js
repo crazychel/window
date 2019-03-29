@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function formEng() {
         popupEngineer.style.display = 'block';
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden';
     }
 
     engineer.addEventListener('click', formEng);
@@ -81,15 +81,18 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     // Modal callback
-    setTimeout(formCall, 60000);
+    setTimeout(() => {
+        popupCall.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }, 1000);
 
     let callBtn = document.querySelectorAll('.phone_link'),
         popupCall = document.querySelector('.popup');
 
-    function formCall() {
-        event.preventDefault()
+    function formCall(event) {
         popupCall.style.display = 'block';
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden';
+        event.preventDefault();
     }
 
     for (let i = 0; i < 2; i++) {
