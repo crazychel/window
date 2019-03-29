@@ -79,8 +79,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     back(popupEngineer);
 
-
-    // Modal callback
     setTimeout(() => {
         popupCall.style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -105,6 +103,76 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     back(popupCall);
+
+
+    // Form
+
+    let massage = {
+            loading: 'Идет отправка',
+            success: 'Отправлено!',
+            failure: 'Ошибка!'
+        },
+        form = document.querySelectorAll('.form'),
+        img = document.createElement('img'),
+        statusMassage = document.createElement('div');
+
+    statusMassage.classList.add('status');
+
+    form.forEach(function (item) {
+
+        item.addEventListener('submit', function (event) {
+            event.preventDefault();
+            item.appendChild(statusMassage);
+            let formData = new FormData(item);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+            let obj = {};
+            formData.forEach(function (value, key) {
+                obj[key] = value;
+            });
+            let json = JSON.stringify(obj);
+            request.send(json);
+
+            request.addEventListener('readystatechange', function () {
+                if (request.readyState < 4) {
+                    statusMassage.innerHTML = massage.loading;
+                } else if (request.readyState == 4) {
+                    statusMassage.innerHTML = massage.success;
+                    item.getElementsByTagName('input')[0].style.display = 'none';
+                    item.getElementsByTagName('input')[1].style.display = 'none';
+                    item.getElementsByTagName('button')[0].innerHTML = 'Спасибо';
+                } else {
+                    statusMassage.innerHTML = massage.failure;
+                }
+            });
+        });
+
+        function inputphone(input) {
+            input.onkeypress = function (e) {
+                e = e || event;
+
+                let chr = getChar(e);
+
+                if (chr >= '0' && chr <= '9' || chr == '+') {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+        }
+
+        function getChar(event) {
+            if (event.which < 32) return null;
+            return String.fromCharCode(event.which)
+        }
+        inputphone(item.getElementsByTagName('input')[1]);
+    });
+
+
 
 
 });
