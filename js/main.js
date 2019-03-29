@@ -52,17 +52,18 @@ window.addEventListener('DOMContentLoaded', function () {
     setClock('.timer', deadline);
 
     // Modal
+    setTimeout(formEng, 60000);
 
     let engineer = document.querySelector('.header_btn'),
         popupEngineer = document.querySelector('.popup_engineer'),
         close = document.querySelectorAll('.popup_close')[1];
 
-
-
-    engineer.addEventListener('click', () => {
+    function formEng() {
         popupEngineer.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    });
+        document.body.style.overflow = 'hidden'
+    }
+
+    engineer.addEventListener('click', formEng);
 
     close.addEventListener('click', () => {
         popupEngineer.style.display = 'none';
