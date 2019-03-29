@@ -1,4 +1,5 @@
-function timer() {
+window.addEventListener('DOMContentLoaded', function () {
+    // timer
     let deadline = '2019-04-05';
 
     function getTimeRemaining(endtime) {
@@ -49,5 +50,31 @@ function timer() {
         }
     }
     setClock('.timer', deadline);
-}
-module.exports = timer;
+
+    // Modal
+
+    let engineer = document.querySelector('.header_btn'),
+        popupEngineer = document.querySelector('.popup_engineer'),
+        close = document.querySelectorAll('.popup_close')[1];
+
+
+
+    engineer.addEventListener('click', () => {
+        popupEngineer.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', () => {
+        popupEngineer.style.display = 'none';
+        document.body.style.overflow = '';
+    });
+
+    popupEngineer.addEventListener('click', function (event) {
+        if (event.target == popupEngineer) {
+            popupEngineer.style.display = 'none';
+            document.body.style.overflow = '';
+
+        }
+    });
+
+});

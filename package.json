@@ -1,7 +1,6 @@
 {
   "name": "window",
   "version": "1.0.0",
-  "description": "",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,5 +18,14 @@
   "dependencies": {
     "babel-plugin-es6-promise": "^1.1.1",
     "formdata-polyfill": "^3.0.17"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazychel/window.git"
+  },
+  "bugs": {
+    "url": "https://github.com/crazychel/window/issues"
+  },
+  "homepage": "https://github.com/crazychel/window#readme",
+  "description": ""
 }
