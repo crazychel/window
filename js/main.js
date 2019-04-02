@@ -54,6 +54,7 @@ window.addEventListener('DOMContentLoaded', function () {
     setClock('.timer', deadline);
 
     // Modal Engineer
+    'use strict';
 
     let engineer = document.querySelector('.header_btn'),
         popupEngineer = document.querySelector('.popup_engineer'),
@@ -108,6 +109,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     // Form
+    'use strict';
 
     let massage = {
             loading: 'Идет отправка',
@@ -172,6 +174,37 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         inputphone(item.getElementsByTagName('input')[1]);
     });
+
+    // Work
+    'use strict';
+
+    let works = document.querySelector('.works'),
+        container = works.getElementsByTagName('img'),
+        div = document.createElement('div'),
+        bigWorks = document.createElement('img');
+
+    works.addEventListener('click', function (event) {
+        event.preventDefault();
+        for (let i = 0; i < container.length; i++) {
+            if (event.target == container[i]) {
+
+                div.classList.add('popup_img');
+                bigWorks.src = works.getElementsByTagName('a')[i];
+                bigWorks.classList.add('myimage');
+                div.appendChild(bigWorks);
+                works.appendChild(div);
+                div.style.display = 'block';
+            }
+        }
+    });
+    console.log(container);
+
+    div.addEventListener('click', function (event) {
+        if (event.target == div) {
+            div.style.display = 'none';
+        }
+    });
+    // popupImg[i].style.display = 'none';
 
 
 
