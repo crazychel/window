@@ -197,16 +197,39 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-    console.log(container);
 
     div.addEventListener('click', function (event) {
         if (event.target == div) {
             div.style.display = 'none';
         }
     });
-    // popupImg[i].style.display = 'none';
 
+    // Tabs balcony
+    'use strict';
 
+    let menu = document.querySelector('.decoration_slider'),
+        tab = document.querySelectorAll('.decoration_item div'),
+        internal = document.querySelector('.internal'),
+        external = document.querySelector('.external'),
+        rising = document.querySelector('.rising'),
+        roof = document.querySelector('.roof'),
+        mass = [internal, external, rising, roof];
 
+    menu.addEventListener('click', function (event) {
+        tab.forEach(function (item) {
+            item.classList.remove('after_click');
+        });
+        event.target.parentElement.classList.add('after_click');
+
+        for (let i = 0; i < mass.length; i++) {
+            mass[i].style.display = 'none';
+            if (event.target == tab[i].children[0]) {
+                mass[i].style.display = 'block';
+            }
+        }
+    });
+
+    // Tabs window
+    
 
 });
