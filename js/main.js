@@ -217,19 +217,51 @@ window.addEventListener('DOMContentLoaded', function () {
 
     menu.addEventListener('click', function (event) {
         tab.forEach(function (item) {
-            item.classList.remove('after_click');
-        });
-        event.target.parentElement.classList.add('after_click');
 
-        for (let i = 0; i < mass.length; i++) {
-            mass[i].style.display = 'none';
-            if (event.target == tab[i].children[0]) {
-                mass[i].style.display = 'block';
+            if (event.target == item.children[0]) {
+
+                tab.forEach(function (item) {
+                    item.classList.remove('after_click');
+                });
+                event.target.parentElement.classList.add('after_click');
+
+                for (let i = 0; i < mass.length; i++) {
+                    mass[i].style.display = 'none';
+                    if (event.target == tab[i].children[0]) {
+                        mass[i].style.display = 'block';
+                    }
+                }
             }
-        }
+        });
     });
 
     // Tabs window
-    
+    'use strict';
+
+    let menuGlaz = document.querySelector('.glazing_slider'),
+        tabGlaz = document.querySelectorAll('.glazing_block'),
+        tabContent = document.querySelectorAll('.glazing .container .row');
+
+    menuGlaz.addEventListener('click', function (event) {
+        tabGlaz.forEach(function (item) {
+
+            if (event.target == item.children[1]) {
+
+                tabGlaz.forEach(function (item) {
+                    item.children[1].classList.remove('active');
+                });
+                event.target.classList.add('active');
+
+                for (let i = 0; i < tabContent.length; i++) {
+                    tabContent[i].style.display = 'none';
+                    if (event.target == tabGlaz[i].children[1]) {
+                        tabContent[i].style.display = 'block';
+                    }
+                }
+            }
+        });
+    });
+
+
 
 });
