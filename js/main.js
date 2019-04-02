@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     engineer.addEventListener('click', formEng);
 
-    close[1].addEventListener('click', () => {
+    close[1].addEventListener('click', function () {
         popupEngineer.style.display = 'none';
         document.body.style.overflow = '';
     });
@@ -141,9 +141,8 @@ window.addEventListener('DOMContentLoaded', function () {
                     statusMassage.innerHTML = massage.loading;
                 } else if (request.readyState == 4) {
                     statusMassage.innerHTML = massage.success;
-                    item.getElementsByTagName('input')[0].style.display = 'none';
-                    item.getElementsByTagName('input')[1].style.display = 'none';
-                    item.getElementsByTagName('button')[0].innerHTML = 'Спасибо';
+                    item.getElementsByTagName('input')[0].value = '';
+                    item.getElementsByTagName('input')[1].value = '';
                 } else {
                     statusMassage.innerHTML = massage.failure;
                 }
