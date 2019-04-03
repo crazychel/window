@@ -842,6 +842,7 @@ textarea:focus {
 
 /*Modals*/
 .popup,
+.popup_img,
 .popup_engineer,
 .popup_calc_end {
   display: none;
@@ -856,10 +857,9 @@ textarea:focus {
 
 .myimage {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 500px;
-  height: 500px;
+  top: 12.5%;
+  left: 30%;
+  height: 75%;
   z-index: 10;
 }
 

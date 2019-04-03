@@ -1,4 +1,6 @@
 function timer() {
+    'use strict';
+
     let deadline = '2019-04-05';
 
     function getTimeRemaining(endtime) {

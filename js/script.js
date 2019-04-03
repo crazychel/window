@@ -1,20 +1,22 @@
-// require('formdata-polyfill');
+require('formdata-polyfill');
 window.addEventListener('DOMContentLoaded', function () {
 
   'use srict';
-  // calc = require('./parts/calc.js'),
-  //   form = require('./parts/form.js'),
-  //   slider = require('./parts/slider.js'),
-  //   tabs = require('./parts/tabs.js'),
-  let modal = require('/js/parts/modal.js'),
-    timer = require('/js/parts/timer.js');
+  let calc = require('./parts/calc.js'),
+    form = require('./parts/form.js'),
+    tabs_balcony = require('./parts/tabs balcony.js'),
+    tabs_window = require('./parts/tabs window.js'),
+    modal = require('./parts/modal.js'),
+    timer = require('./parts/timer.js'),
+    work = require('./parts/work.js');
 
-  // calc();
-  // form();
-  // slider();
-  // tabs();
+  calc();
+  form();
+  tabs_balcony();
+  tabs_window();
   timer();
   modal();
+  work();
 });
 
 if ('NodeList' in window && !NodeList.prototype.forEach) {
