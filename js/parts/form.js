@@ -22,7 +22,6 @@ function form() {
             request.open('POST', 'server.php');
             request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
-
             formData.forEach(function (value, key) {
                 calcObj[key] = value;
             });

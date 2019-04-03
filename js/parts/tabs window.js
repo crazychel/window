@@ -8,17 +8,19 @@ function tabs_window() {
     menuGlaz.addEventListener('click', function (event) {
         tabGlaz.forEach(function (item) {
 
-            if (event.target == item.children[1]) {
+            if (event.target && event.target.classList.contains('glazing_block') || item.children[1] || item.children[0]) {
 
-                tabGlaz.forEach(function (item) {
-                    item.children[1].classList.remove('active');
+                tabGlaz.forEach(function (items) {
+                    items.children[1].classList.remove('active');
                 });
                 event.target.classList.add('active');
 
                 for (let i = 0; i < tabContent.length; i++) {
                     tabContent[i].style.display = 'none';
-                    if (event.target == tabGlaz[i].children[1]) {
+                    
+                    if (event.target == tabGlaz[i] || event.target == tabGlaz[i].children[1] || event.target == tabGlaz[i].children[0]) {
                         tabContent[i].style.display = 'block';
+                        tabGlaz[i].children[1].classList.add('active');
                     }
                 }
             }

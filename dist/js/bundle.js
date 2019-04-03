@@ -360,13 +360,28 @@ function tabs_balcony() {
         tab.forEach(function (item) {
           item.classList.remove('after_click');
         });
-        event.target.parentElement.classList.add('after_click');
+        item.classList.add('after_click');
 
         for (var i = 0; i < mass.length; i++) {
           mass[i].style.display = 'none';
 
           if (event.target == tab[i].children[0]) {
             mass[i].style.display = 'block';
+          }
+        }
+      }
+
+      if (event.target == item) {
+        tab.forEach(function (item) {
+          item.classList.remove('after_click');
+        });
+        item.classList.add('after_click');
+
+        for (var _i = 0; _i < mass.length; _i++) {
+          mass[_i].style.display = 'none';
+
+          if (event.target == tab[_i]) {
+            mass[_i].style.display = 'block';
           }
         }
       }
@@ -393,17 +408,18 @@ function tabs_window() {
       tabContent = document.querySelectorAll('.glazing .container .row');
   menuGlaz.addEventListener('click', function (event) {
     tabGlaz.forEach(function (item) {
-      if (event.target == item.children[1]) {
-        tabGlaz.forEach(function (item) {
-          item.children[1].classList.remove('active');
+      if (event.target && event.target.classList.contains('glazing_block') || item.children[1] || item.children[0]) {
+        tabGlaz.forEach(function (items) {
+          items.children[1].classList.remove('active');
         });
         event.target.classList.add('active');
 
         for (var i = 0; i < tabContent.length; i++) {
           tabContent[i].style.display = 'none';
 
-          if (event.target == tabGlaz[i].children[1]) {
+          if (event.target == tabGlaz[i] || event.target == tabGlaz[i].children[1] || event.target == tabGlaz[i].children[0]) {
             tabContent[i].style.display = 'block';
+            tabGlaz[i].children[1].classList.add('active');
           }
         }
       }

@@ -17,11 +17,26 @@ function tabs_balcony() {
                 tab.forEach(function (item) {
                     item.classList.remove('after_click');
                 });
-                event.target.parentElement.classList.add('after_click');
+                item.classList.add('after_click');
 
                 for (let i = 0; i < mass.length; i++) {
                     mass[i].style.display = 'none';
                     if (event.target == tab[i].children[0]) {
+                        mass[i].style.display = 'block';
+                    }
+                }
+            }
+
+            if (event.target == item) {
+
+                tab.forEach(function (item) {
+                    item.classList.remove('after_click');
+                });
+                item.classList.add('after_click');
+
+                for (let i = 0; i < mass.length; i++) {
+                    mass[i].style.display = 'none';
+                    if (event.target == tab[i]) {
                         mass[i].style.display = 'block';
                     }
                 }
