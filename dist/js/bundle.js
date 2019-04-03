@@ -145,6 +145,9 @@ function calc() {
 
   inputphone(inputCalc[0]);
   inputphone(inputCalc[1]);
+
+  function checkinput(input) {}
+
   var formBalcony = 'Тип1';
   doMore.forEach(function (item, key) {
     item.addEventListener('click', function (event) {
@@ -163,13 +166,15 @@ function calc() {
     });
   });
   btnNext.addEventListener('click', function () {
-    popupCalc.style.display = 'none';
-    calcProfile.style.display = 'block';
-    calcObj = {
-      'Форма балкона': formBalcony,
-      'Ширина': inputCalc[0].value,
-      'Высота': inputCalc[1].value
-    };
+    if (inputCalc[0].value != null && inputCalc[0].value != '' && inputCalc[1].value != null && inputCalc[1].value != '') {
+      popupCalc.style.display = 'none';
+      calcProfile.style.display = 'block';
+      calcObj = {
+        'Форма балкона': formBalcony,
+        'Ширина': inputCalc[0].value,
+        'Высота': inputCalc[1].value
+      };
+    }
   });
   chbox[0].addEventListener('change', function () {
     chbox[1].checked = false;
@@ -183,19 +188,21 @@ function calc() {
     calcObj = {};
   });
   btnNextProfile.addEventListener('click', function () {
-    calcProfile.style.display = 'none';
-    calcEnd.style.display = 'block';
-    var selection;
+    if (chbox[0].checked == true || chbox[1].checked == true) {
+      calcProfile.style.display = 'none';
+      calcEnd.style.display = 'block';
+      var selection;
 
-    if (chbox[0]) {
-      selection = chbox[0].parentElement.getElementsByTagName('span')[1].textContent;
-    } else {
-      selection = chbox[1].parentElement.getElementsByTagName('span')[1].textContent;
+      if (chbox[0]) {
+        selection = chbox[0].parentElement.getElementsByTagName('span')[1].textContent;
+      } else {
+        selection = chbox[1].parentElement.getElementsByTagName('span')[1].textContent;
+      }
+
+      calcObj['Тип остекления'] = select.value;
+      calcObj['Профиль'] = selection;
+      statusMassage.innerHTML = '';
     }
-
-    calcObj['Тип остекления'] = select.value;
-    calcObj['Профиль'] = selection;
-    statusMassage.innerHTML = '';
   });
   inputphone(document.querySelector('.popup_calc_end').getElementsByTagName('input')[1]);
   closeEnd.addEventListener('click', function () {
