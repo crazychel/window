@@ -9,13 +9,14 @@ function calc() {
         bigImg = document.querySelectorAll('.big_img img'),
         btnNext = document.querySelector('.popup_calc_button'),
         calcProfile = document.querySelector('.popup_calc_profile'),
+        select = document.querySelector('#view_type'),
         chbox = document.querySelectorAll('.checkbox'),
         closeProfile = document.querySelector('.popup_calc_profile_close'),
         btnNextProfile = document.querySelector('.popup_calc_profile_button'),
         calcEnd = document.querySelector('.popup_calc_end'),
         closeEnd = document.querySelector('.popup_calc_end_close'),
         sendForm = calcEnd.getElementsByTagName('form')[0],
-        calc = {};
+        calcObj = {};
 
     openCalc.forEach(function (item) {
         item.addEventListener('click', function (event) {
@@ -28,7 +29,7 @@ function calc() {
     closeCalc.addEventListener('click', function () {
         popupCalc.style.display = 'none';
         document.body.style.overflow = '';
-        calc = {};
+        calcObj = {};
     });
 
     function inputphone(input) {
@@ -54,6 +55,8 @@ function calc() {
     inputphone(inputCalc[0]);
     inputphone(inputCalc[1]);
 
+    let formBalcony = 'Тип1';
+
     doMore.forEach(function (item, key) {
 
         item.addEventListener('click', function (event) {
@@ -69,6 +72,9 @@ function calc() {
                 item.style.margin = 'auto';
             });
             bigImg[key].style.display = 'block';
+
+            formBalcony = event.target.alt;
+            return formBalcony;
         });
 
     });
@@ -76,7 +82,8 @@ function calc() {
     btnNext.addEventListener('click', function () {
         popupCalc.style.display = 'none';
         calcProfile.style.display = 'block';
-        calc = {
+        calcObj = {
+            'Форма балкона': formBalcony,
             'Ширина': inputCalc[0].value,
             'Высота': inputCalc[1].value
         };
@@ -93,7 +100,7 @@ function calc() {
     closeProfile.addEventListener('click', function () {
         calcProfile.style.display = 'none';
         document.body.style.overflow = '';
-        calc = {};
+        calcObj = {};
     });
 
     btnNextProfile.addEventListener('click', function () {
@@ -106,8 +113,9 @@ function calc() {
         } else {
             selection = chbox[1].parentElement.getElementsByTagName('span')[1].textContent;
         }
-        calc['Тип остекления'] = document.getElementById('view_type').value;
-        calc['Профиль'] = selection;
+        calcObj['Тип остекления'] = select.value;
+        calcObj['Профиль'] = selection;
+        statusMassage.innerHTML = '';
     });
 
     inputphone(document.querySelector('.popup_calc_end').getElementsByTagName('input')[1]);
@@ -115,51 +123,84 @@ function calc() {
     closeEnd.addEventListener('click', function () {
         calcEnd.style.display = 'none';
         document.body.style.overflow = '';
-        calc = {};
-    });
-
-    sendForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        let formData = new FormData(sendForm);
-
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
-        formData.forEach(function (value, key) {
-            calc[key] = value;
-        });
-
-        let json = JSON.stringify(calc);
-        request.send(json);
-
-        calc = {};
-
-        let status = document.createElement('div');
-        status.classList.add('status');
-        sendForm.appendChild(status);
-
-        request.addEventListener('readystatechange', function () {
-            if (request.readyState < 4) {
-                status.innerHTML = 'Идет отправка';
-            } else if (request.readyState == 4) {
-                if (request.status == 200 && request.status < 300) {
-                    status.innerHTML = 'Отправлено!';
-                    clearInput();
-                }
-            } else {
-                status.innerHTML = 'Ошибка!';
-            }
-        });
-
+        calcObj = {};
     });
 
     function clearInput(form = document) {
         form.querySelectorAll('input').forEach(function (item) {
             item.value = '';
+            select.selectedIndex = 0;
         });
     }
     clearInput();
+
+    let massage = {
+            loading: 'Идет отправка',
+            success: 'Отправлено!',
+            failure: 'Ошибка!'
+        },
+        form = document.querySelectorAll('.form'),
+        statusMassage = document.createElement('div');
+
+    statusMassage.classList.add('status');
+
+    form.forEach(function (item) {
+
+        item.addEventListener('submit', function (event) {
+            event.preventDefault();
+            item.appendChild(statusMassage);
+
+            let formData = new FormData(item);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+
+            formData.forEach(function (value, key) {
+                calcObj[key] = value;
+            });
+            let json = JSON.stringify(calcObj);
+
+            request.send(json);
+
+            request.addEventListener('readystatechange', function () {
+                if (request.readyState < 4) {
+                    statusMassage.innerHTML = massage.loading;
+                } else if (request.readyState == 4) {
+                    if (request.status == 200 && request.status < 300) {
+                        statusMassage.innerHTML = massage.success;
+                        clearInput();
+                    }
+                } else {
+                    statusMassage.innerHTML = massage.failure;
+                }
+            });
+        });
+
+        function inputphone(input) {
+            input.onkeypress = function (e) {
+                e = e || event;
+
+                let chr = getChar(e);
+
+                if (chr >= '0' && chr <= '9' || chr == '+') {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            };
+        }
+
+        function getChar(event) {
+            if (event.which < 32) return null;
+            return String.fromCharCode(event.which);
+        }
+        inputphone(item.getElementsByTagName('input')[1]);
+    });
+
 }
+
 
 module.exports = calc;

@@ -104,13 +104,14 @@ function calc() {
       bigImg = document.querySelectorAll('.big_img img'),
       btnNext = document.querySelector('.popup_calc_button'),
       calcProfile = document.querySelector('.popup_calc_profile'),
+      select = document.querySelector('#view_type'),
       chbox = document.querySelectorAll('.checkbox'),
       closeProfile = document.querySelector('.popup_calc_profile_close'),
       btnNextProfile = document.querySelector('.popup_calc_profile_button'),
       calcEnd = document.querySelector('.popup_calc_end'),
       closeEnd = document.querySelector('.popup_calc_end_close'),
       sendForm = calcEnd.getElementsByTagName('form')[0],
-      calc = {};
+      calcObj = {};
   openCalc.forEach(function (item) {
     item.addEventListener('click', function (event) {
       event.preventDefault();
@@ -121,7 +122,7 @@ function calc() {
   closeCalc.addEventListener('click', function () {
     popupCalc.style.display = 'none';
     document.body.style.overflow = '';
-    calc = {};
+    calcObj = {};
   });
 
   function inputphone(input) {
@@ -144,6 +145,7 @@ function calc() {
 
   inputphone(inputCalc[0]);
   inputphone(inputCalc[1]);
+  var formBalcony = 'Тип1';
   doMore.forEach(function (item, key) {
     item.addEventListener('click', function (event) {
       event.preventDefault();
@@ -156,12 +158,15 @@ function calc() {
         item.style.margin = 'auto';
       });
       bigImg[key].style.display = 'block';
+      formBalcony = event.target.alt;
+      return formBalcony;
     });
   });
   btnNext.addEventListener('click', function () {
     popupCalc.style.display = 'none';
     calcProfile.style.display = 'block';
-    calc = {
+    calcObj = {
+      'Форма балкона': formBalcony,
       'Ширина': inputCalc[0].value,
       'Высота': inputCalc[1].value
     };
@@ -175,7 +180,7 @@ function calc() {
   closeProfile.addEventListener('click', function () {
     calcProfile.style.display = 'none';
     document.body.style.overflow = '';
-    calc = {};
+    calcObj = {};
   });
   btnNextProfile.addEventListener('click', function () {
     calcProfile.style.display = 'none';
@@ -188,68 +193,26 @@ function calc() {
       selection = chbox[1].parentElement.getElementsByTagName('span')[1].textContent;
     }
 
-    calc['Тип остекления'] = document.getElementById('view_type').value;
-    calc['Профиль'] = selection;
+    calcObj['Тип остекления'] = select.value;
+    calcObj['Профиль'] = selection;
+    statusMassage.innerHTML = '';
   });
   inputphone(document.querySelector('.popup_calc_end').getElementsByTagName('input')[1]);
   closeEnd.addEventListener('click', function () {
     calcEnd.style.display = 'none';
     document.body.style.overflow = '';
-    calc = {};
-  });
-  sendForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    var formData = new FormData(sendForm);
-    var request = new XMLHttpRequest();
-    request.open('POST', 'server.php');
-    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    formData.forEach(function (value, key) {
-      calc[key] = value;
-    });
-    var json = JSON.stringify(calc);
-    request.send(json);
-    calc = {};
-    var status = document.createElement('div');
-    status.classList.add('status');
-    sendForm.appendChild(status);
-    request.addEventListener('readystatechange', function () {
-      if (request.readyState < 4) {
-        status.innerHTML = 'Идет отправка';
-      } else if (request.readyState == 4) {
-        if (request.status == 200 && request.status < 300) {
-          status.innerHTML = 'Отправлено!';
-          clearInput();
-        }
-      } else {
-        status.innerHTML = 'Ошибка!';
-      }
-    });
+    calcObj = {};
   });
 
   function clearInput() {
     var form = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
     form.querySelectorAll('input').forEach(function (item) {
       item.value = '';
+      select.selectedIndex = 0;
     });
   }
 
   clearInput();
-}
-
-module.exports = calc;
-
-/***/ }),
-
-/***/ "./js/parts/form.js":
-/*!**************************!*\
-  !*** ./js/parts/form.js ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function form() {
-  'use strict';
-
   var massage = {
     loading: 'Идет отправка',
     success: 'Отправлено!',
@@ -266,11 +229,10 @@ function form() {
       var request = new XMLHttpRequest();
       request.open('POST', 'server.php');
       request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-      var obj = {};
       formData.forEach(function (value, key) {
-        obj[key] = value;
+        calcObj[key] = value;
       });
-      var json = JSON.stringify(obj);
+      var json = JSON.stringify(calcObj);
       request.send(json);
       request.addEventListener('readystatechange', function () {
         if (request.readyState < 4) {
@@ -278,8 +240,7 @@ function form() {
         } else if (request.readyState == 4) {
           if (request.status == 200 && request.status < 300) {
             statusMassage.innerHTML = massage.success;
-            item.getElementsByTagName('input')[0].value = '';
-            item.getElementsByTagName('input')[1].value = '';
+            clearInput();
           }
         } else {
           statusMassage.innerHTML = massage.failure;
@@ -309,7 +270,7 @@ function form() {
   });
 }
 
-module.exports = form;
+module.exports = calc;
 
 /***/ }),
 
@@ -573,15 +534,15 @@ window.addEventListener('DOMContentLoaded', function () {
   'use srict';
 
   var calc = __webpack_require__(/*! ./parts/calc.js */ "./js/parts/calc.js"),
-      form = __webpack_require__(/*! ./parts/form.js */ "./js/parts/form.js"),
-      tabs_balcony = __webpack_require__(/*! ./parts/tabs balcony.js */ "./js/parts/tabs balcony.js"),
+      // form = require('./parts/form.js'),
+  tabs_balcony = __webpack_require__(/*! ./parts/tabs balcony.js */ "./js/parts/tabs balcony.js"),
       tabs_window = __webpack_require__(/*! ./parts/tabs window.js */ "./js/parts/tabs window.js"),
       modal = __webpack_require__(/*! ./parts/modal.js */ "./js/parts/modal.js"),
       timer = __webpack_require__(/*! ./parts/timer.js */ "./js/parts/timer.js"),
       work = __webpack_require__(/*! ./parts/work.js */ "./js/parts/work.js");
 
-  calc();
-  form();
+  calc(); // form();
+
   tabs_balcony();
   tabs_window();
   timer();

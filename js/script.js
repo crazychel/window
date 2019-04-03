@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   'use srict';
   let calc = require('./parts/calc.js'),
-    form = require('./parts/form.js'),
+    // form = require('./parts/form.js'),
     tabs_balcony = require('./parts/tabs balcony.js'),
     tabs_window = require('./parts/tabs window.js'),
     modal = require('./parts/modal.js'),
@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', function () {
     work = require('./parts/work.js');
 
   calc();
-  form();
+  // form();
   tabs_balcony();
   tabs_window();
   timer();

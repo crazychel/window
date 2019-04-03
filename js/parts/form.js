@@ -1,6 +1,5 @@
 function form() {
     'use strict';
-
     let massage = {
             loading: 'Идет отправка',
             success: 'Отправлено!',
@@ -23,11 +22,12 @@ function form() {
             request.open('POST', 'server.php');
             request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
-            let obj = {};
+
             formData.forEach(function (value, key) {
-                obj[key] = value;
+                calcObj[key] = value;
             });
-            let json = JSON.stringify(obj);
+            let json = JSON.stringify(calcObj);
+
             request.send(json);
 
             request.addEventListener('readystatechange', function () {
@@ -36,8 +36,7 @@ function form() {
                 } else if (request.readyState == 4) {
                     if (request.status == 200 && request.status < 300) {
                         statusMassage.innerHTML = massage.success;
-                        item.getElementsByTagName('input')[0].value = '';
-                        item.getElementsByTagName('input')[1].value = '';
+                        clearInput();
                     }
                 } else {
                     statusMassage.innerHTML = massage.failure;
